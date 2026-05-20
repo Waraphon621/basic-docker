@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+
+  app:
+    image: alpine
+    container_name: bind-app
+    volumes:
+      - ./data:/app/data   # bind mount: ./data (host) → /app/data (container)
+    command: sleep 3600

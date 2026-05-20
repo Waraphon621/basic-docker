@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+
+  server1:
+    image: alpine
+    container_name: server1
+    networks:
+      - my-network
+    command: sleep 3600
+
+  server2:
+    image: alpine
+    container_name: server2
+    networks:
+      - my-network        # อยู่ network เดียวกับ server1
+    command: sleep 3600
+
+  server3:
+    image: alpine
+    container_name: server3
+                          # ไม่ได้ระบุ network → ใช้ default bridge
+    command: sleep 3600
+
+networks:
+  my-network:
+    driver: bridge

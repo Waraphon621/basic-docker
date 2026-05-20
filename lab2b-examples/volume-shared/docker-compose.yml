@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+
+  writer:
+    image: alpine
+    container_name: writer
+    volumes:
+      - shared-data:/data
+    command: >
+      sh -c "echo 'Hello from writer!' > /data/message.txt &&
+             echo 'Line 2' >> /data/message.txt &&
+             sleep 3600"
+
+  reader:
+    image: alpine
+    container_name: reader
+    volumes:
+      - shared-data:/data   # mount volume เดียวกับ writer
+    depends_on:
+      - writer
+    command: sh -c "sleep 2 && cat /data/message.txt && sleep 3600"
+
+volumes:
+  shared-data:              # named volume — Docker จัดการให้

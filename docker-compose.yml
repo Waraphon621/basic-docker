@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+
+  app:
+    build: .
+    container_name: fastapi-app
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=development
+      - APP_VERSION=1.0.0
+    volumes:
+      - ./src:/app        # bind mount — hot reload ใน dev
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis-cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data  # named volume — ข้อมูล persist หลัง restart
+
+volumes:
+  redis_data:
